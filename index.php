@@ -2,7 +2,7 @@
 require_once ('config.php');
 
 $checked_cameras = !empty($_GET['camera']) ? $_GET['camera'] : array_keys($cameras);
-$checked_events = !empty($_GET['event']) ? $_GET['event'] : array('MOTION');
+$checked_events = !empty($_GET['event']) ? $_GET['event'] : array('TIMER');
 
 ?>
 
@@ -14,6 +14,7 @@ $checked_events = !empty($_GET['event']) ? $_GET['event'] : array('MOTION');
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="css/fotorama.css" rel="stylesheet" media="screen">
+    <link href="css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" media="screen">
     <link href="css/style.css" rel="stylesheet" media="screen">
   </head>
   <body>
@@ -31,9 +32,9 @@ $checked_events = !empty($_GET['event']) ? $_GET['event'] : array('MOTION');
           <fieldset>
 
             
-            <div class='span6'>
+            <div class='span4'>
 
-                <legend>Выберите камеры из списка</legend>
+                <legend>Камеры</legend>
                 <?
                 $checked = count($checked_cameras) == count($cameras) ? 'checked="1"' : '';
                 echo '<label class="checkbox"><input '.$checked.' type="checkbox" id="camera_toggle" /> <strong>Все камеры</strong></label>';
@@ -45,7 +46,7 @@ $checked_events = !empty($_GET['event']) ? $_GET['event'] : array('MOTION');
 
                   $checked = in_array($alias, $checked_cameras) ? 'checked="1"' : '';
 
-                  echo '<label class="checkbox"><input '.$checked.' class="input-camera" type="checkbox" name="camera[]" value="'.$alias.'" /> '.$name.'</label>';
+                  echo '<label class="checkbox"><input '.$checked.' class="input-camera" type="checkbox" name="camera[]" value="'.$alias.'" /> '.$name.' ('.$alias.')</label>';
                 }
 
 
@@ -53,8 +54,21 @@ $checked_events = !empty($_GET['event']) ? $_GET['event'] : array('MOTION');
 
             </div>
 
+            <div class='span4'> 
+              <legend>Дата и время</legend>
+              <label>От</label>
+              <input type="text" id="from" name="from" class='input-small' value="<?=$_GET['from']?>">
+              <input type="text" name="from_time" id='from_time' class='input-small' value="<?=$_GET['from_time']?>">
 
-            <div class='span6'>
+              <label>До</label>
+              <input type="text" id="to" name='to' class='input-small' value="<?=$_GET['to']?>" />
+              <input type="text" name="to_time" id='to_time' class='input-small' value="<?=$_GET['to_time']?>">
+
+
+            </div>
+
+
+            <div class='span4'>
                 <legend>События</legend>
 
                 <?
@@ -109,14 +123,28 @@ $checked_events = !empty($_GET['event']) ? $_GET['event'] : array('MOTION');
                 }
               }
 
+
+              // date from request
+              $to = 9999999999;
+              if ($_GET['to'] && $_GET['to_time']) {
+                $to = strtotime ($_GET['to']  . ' ' . $_GET['to_time']);                
+              }
+
+              $from = 0;
+              if ($_GET['from'] && $_GET['from_time']) {
+                $from = strtotime ($_GET['from']  . ' ' . $_GET['from_time']);
+              }
+
               if ($result_file) {
-                ksort($result_file);
+                ksort($result_file);                
                 
 
-                echo '<div class="fotorama" data-width="100%">';
+                echo '<div class="fotorama" data-width="100%" data-hash="true"  data-nav="none" data-startImg="'.(count($result_file)-1).'">';
 
-                foreach ($result_file as $file) {
-                  echo "<img src='".IMAGE_URL.$file."' alt='' />";
+                foreach ($result_file as $time => $file) {
+                  if ($time >= $from && $time <= $to) {
+                    echo "<a href='".IMAGE_URL.$file."' rel='".$time."' data-date='".strftime('%Y-%m-%d %T',$time)."'><img src='' alt='' /></a> \n";  
+                  }                  
                 }
 
                 echo '</div>';
@@ -143,19 +171,13 @@ $checked_events = !empty($_GET['event']) ? $_GET['event'] : array('MOTION');
 
 
     <script src="js/jquery.min.js"></script>    
+    <script src="js/jquery-ui-1.10.3.custom.min.js"></script>    
+    <script src="js/jquery.ui.datepicker-ru.js"></script>  
+    <script src="js/jquery.maskedinput.min.js  "></script>      
     <script src="js/bootstrap.min.js"></script>
     <script src="js/fotorama.js"></script>
+    <script src="js/script.js"></script>
 
-    <script type='text/javascript'>
-    $(function () {
-       $('#camera_toggle').on('click', function () {
-          $('.input-camera').prop('checked', this.checked);
-       });
-       
-       $('#event_toggle').on('click', function () {
-          $('.input-event').prop('checked', this.checked);
-        });
-    });
-    </script>
+
   </body>
 </html>
