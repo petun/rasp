@@ -20,4 +20,8 @@ $(function () {
 
    $('#from_time,#to_time').mask('99:99');
 
+
+   // reset hash on key press
+   $('.btn.btn-success.pull-right').click(function() {window.location.hash = ''; $(this).closest('form').submit(); });
+
 });
