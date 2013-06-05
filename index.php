@@ -1,34 +1,12 @@
-<?
-require_once ('config.php');
-
-$checked_cameras = !empty($_GET['camera']) ? $_GET['camera'] : array_keys($cameras);
-$checked_events = !empty($_GET['event']) ? $_GET['event'] : array('TIMER');
-
-?>
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Rasp Cameras</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="css/fotorama.css" rel="stylesheet" media="screen">
-    <link href="css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet" media="screen">
-    <link href="css/style.css" rel="stylesheet" media="screen">
-  </head>
-  <body>
-  <header class="jumbotron subhead" id="overview">
-    <div class="container">
-      <h1>Rasp Camera</h1>
-      <p class="lead">Fundamental HTML elements styled and enhanced with extensible classes.</p>
-    </div>
-  </header>
-  <div id='content'>
-    <div class="container">
+<? include('_header.php'); ?>
+  <div id='content' class='container'>    
       <div class='row'>        
+        <?
+          $checked_cameras = !empty($_GET['camera']) ? $_GET['camera'] : array_keys($cameras);
+          $checked_events = !empty($_GET['event']) ? $_GET['event'] : array('TIMER');
+        ?>
         <div class='span12'><h2>Фильтр по камерам и событиям</h2> </div>
-        <form>
+         <div class='span12'><form>
           <fieldset>
 
             
@@ -68,7 +46,7 @@ $checked_events = !empty($_GET['event']) ? $_GET['event'] : array('TIMER');
             </div>
 
 
-            <div class='span4'>
+            <div class='span3'>
                 <legend>События</legend>
 
                 <?
@@ -97,7 +75,7 @@ $checked_events = !empty($_GET['event']) ? $_GET['event'] : array('TIMER');
 
 
           </fieldset>
-        </form>
+        </form></div> <!-- / span12 -->
       </div>
 
       <div class='row'>        
@@ -155,29 +133,6 @@ $checked_events = !empty($_GET['event']) ? $_GET['event'] : array('TIMER');
         </div>
       </div>
 
-
-      
-    </div>
-
   </div>
 
-  <footer class="footer">
-      <div class="container">
-        <p>2013 @ petun911@gmail.com</p>
-      </div>
-    </footer>
-
-
-
-
-    <script src="js/jquery.min.js"></script>    
-    <script src="js/jquery-ui-1.10.3.custom.min.js"></script>    
-    <script src="js/jquery.ui.datepicker-ru.js"></script>  
-    <script src="js/jquery.maskedinput.min.js  "></script>      
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/fotorama.js"></script>
-    <script src="js/script.js"></script>
-
-
-  </body>
-</html>
+<?  include('_footer.php'); ?>

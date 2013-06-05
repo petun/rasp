@@ -8,4 +8,11 @@ background-color: #f5f5f5;
 
 header {
 background: #eee;
+margin: 0 0 10px;
+}
+
+.menu .nav {
+	margin: 0 0 5px;
+	padding-bottom: 5px;
+	border-bottom: 1px #eee solid;
 }

@@ -16,3 +16,7 @@ $events = array(
 
 define(IMAGE_PATH,dirname(__FILE__).'/images/');
 define(IMAGE_URL,'images/');
+
+
+define(VIDEO_PATH,dirname(__FILE__).'/video/');
+define(VIDEO_URL,'video/');
