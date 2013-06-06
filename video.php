@@ -9,7 +9,7 @@
               echo '<ul>';
               foreach ($content as $key => $file) {
                 $info = pathinfo(VIDEO_PATH.$file);
-                if ($info['extension'] == 'avi') {
+                if ( in_array($info['extension'],$allowedExtensions)) {
                     echo '<li><a href="'.VIDEO_URL.$file.'">'.$file.'</a></li>';
                 }
               }

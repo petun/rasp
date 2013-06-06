@@ -14,6 +14,9 @@ $events = array(
 	);
 
 
+$allowedExtensions = array('avi','mpg','mp4','mpeg');
+
+
 define(IMAGE_PATH,dirname(__FILE__).'/images/');
 define(IMAGE_URL,'images/');
 
